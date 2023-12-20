@@ -1,17 +1,40 @@
 const { Router } = require("express");
-const adminMiddleware = require("../middleware/admin");
-const router = Router();
+const bodyParser = require('body-parser');
 
+const adminMiddleware = require("../middleware/admin");
+const mongodbreq=require("../db/index.js");
+const router = Router();
 // Admin Routes
-app.post('/signup', (req, res) => {
+router.post('/signup', (req, res) => {
+    console.log(req.body.username);
+    mongodbreq.Admin.create(
+        {
+            name:req.body.username,
+            password:req.body.password,
+        }
+        
+    );
+    res.json({message:'Admin created successfully'});
+
     // Implement admin signup logic
 });
 
-app.post('/courses', adminMiddleware, (req, res) => {
+router.post('/courses', adminMiddleware, (req, res) => {
+    mongodbreq.Course.create(
+        {
+            title:req.body.title,
+            description:req.body.description,
+            price:req.body.price,
+            imageLink:req.body.imageLink,
+        }
+    );
+    res.json({'message':'course created succesfully'});
     // Implement course creation logic
 });
 
-app.get('/courses', adminMiddleware, (req, res) => {
+router.get('/courses', adminMiddleware, async (req, res) => {
+    const courses=await mongodbreq.Course.find({});
+    res.json(courses);
     // Implement fetching all courses logic
 });
 
