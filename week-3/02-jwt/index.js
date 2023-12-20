@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken');
+const z=require('zod');
 const jwtPassword = 'secret';
 
 
@@ -13,7 +14,17 @@ const jwtPassword = 'secret';
  *                        Returns null if the username is not a valid email or
  *                        the password does not meet the length requirement.
  */
+const email=z.string().email();
+const passSchema=z.string().min(6);
+
 function signJwt(username, password) {
+    if(email.safeParse(username).success && passSchema.safeParse(password).success)
+    {
+        var token = jwt.sign({ username: username }, jwtPassword);
+       return token;
+    }
+    return null;
+    
     // Your code here
 }
 
@@ -25,7 +36,33 @@ function signJwt(username, password) {
  *                    Returns false if the token is invalid, expired, or not verified
  *                    using the secret key.
  */
+// verifyJwt("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFrc2hheWFAZ21haWwuY29tIiwiaWF0IjoxNzAzMDY4NTgzfQ.mLgQfz0oEp-VuMqMZn9Pcc6q7sGWRdR9SjD4O-iWD7k");
 function verifyJwt(token) {
+    return jwt.verify(token,jwtPassword,(err,decoded)=>
+    {
+        if(err)
+        {
+            console.log(err);
+            return false;
+        }
+        // if(decoded==undefined)
+        // {
+        //     return false;
+        // }else{
+        //     return true;
+        // }
+        return true;
+    });
+
+
+    // try{
+    // const verify=jwt.verify(token,jwtPassword);
+    // }
+    // catch(err)
+    // {
+    //     return false;
+    // }
+    // return true;
     // Your code here
 }
 
@@ -37,6 +74,12 @@ function verifyJwt(token) {
  *                         Returns false if the token is not a valid JWT format.
  */
 function decodeJwt(token) {
+    const verify=jwt.decode(token,jwtPassword);
+    if(verify)
+    {
+        return true;
+    }
+    return false;
     // Your code here
 }
 
