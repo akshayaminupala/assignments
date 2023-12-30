@@ -1,9 +1,9 @@
 const mongoose = require('mongoose');
+const password = encodeURIComponent("AkSh@1234");
 
 
 // Connect to MongoDB
-mongoose.connect(`<url>`);
-// Define schemas
+mongoose.connect(`mongodb+srv://akshaya:${password}@cluster0.xdm08en.mongodb.net/`);// Define schemas
 const AdminSchema = new mongoose.Schema({
     name:{
         type:String,

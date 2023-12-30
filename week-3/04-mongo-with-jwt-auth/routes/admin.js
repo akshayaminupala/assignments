@@ -8,6 +8,7 @@ const jwtPassword = 'secret';
 
 // Admin Routes
 router.post('/signup', (req, res) => {
+router.post('/signup', (req, res) => {
     // Implement admin signup logic
     console.log(req.body.username);
     mongodbreq.Admin.create(

@@ -19,6 +19,7 @@ router.post('/signup', (req, res) => {
     // Implement user signup logic
 });
 
+router.post('/signin', (req, res) => {
 router.post('/signin', async (req, res) => {
     const existingUser=await mongodbreq.User.findOne({name:req.body.username,password:req.body.password});
     console.log(existingUser);
@@ -32,6 +33,7 @@ router.post('/signin', async (req, res) => {
     // Implement admin signup logic
 });
 
+router.get('/courses', (req, res) => {
 router.get('/courses', async (req, res) => {
     const courses=await mongodbreq.Course.find({});
     res.json(courses);
