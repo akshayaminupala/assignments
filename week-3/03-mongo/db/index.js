@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const password = encodeURIComponent("AkSh@1234");
 
 
 // Connect to MongoDB
